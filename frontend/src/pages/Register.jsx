@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Card } from "antd";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import constants from "../constants";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,7 @@ export default function Register() {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/register/", {
+      const response = await fetch(constants.baseUrl + "api/users/register/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,9 +39,9 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <Card className="w-full max-w-md p-6 shadow-lg rounded-lg">
-        <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+      <Card className="w-full max-w-md rounded-lg p-6 shadow-lg">
+        <h2 className="mb-6 text-center text-2xl font-semibold">Register</h2>
         <Form layout="vertical" onFinish={onFinish}>
           <Form.Item
             label="Username"
@@ -63,13 +64,20 @@ export default function Register() {
           >
             <Input.Password />
           </Form.Item>
-          <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="w-full"
+            loading={loading}
+          >
             Register
           </Button>
         </Form>
         <div className="mt-4 text-center">
           <p>Already have an account?</p>
-          <Button type="link" onClick={() => navigate("/login")}>Login</Button>
+          <Button type="link" onClick={() => navigate("/login")}>
+            Login
+          </Button>
         </div>
       </Card>
     </div>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Button, Card } from "antd";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import constants from "../constants";
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,7 @@ export default function Login() {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/login/", {
+      const response = await fetch(constants.baseUrl + "api/users/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +24,7 @@ export default function Login() {
       if (response.ok) {
         localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("accessToken", data.accessToken);
-
+        localStorage.setItem("userName", data.userName);
         toast.success("Login successful!");
         navigate("/dashboard");
       } else {
@@ -37,23 +38,43 @@ export default function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <Card className="w-full max-w-md p-6 shadow-lg rounded-lg">
-        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+      <Card className="w-full max-w-md rounded-lg p-6 shadow-lg">
+        <h2 className="mb-6 text-center text-2xl font-semibold">Login</h2>
         <Form layout="vertical" onFinish={onFinish}>
-          <Form.Item label="Username" name="username" rules={[{ required: true, message: "Please enter your email!" }]}>
-            <Input />
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: "Please enter your email!" }]}
+          >
+            <Input data-testid="username-input-test" />
           </Form.Item>
-          <Form.Item label="Password" name="password" rules={[{ required: true, message: "Please enter your password!" }]}>
-            <Input.Password />
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: "Please enter your password!" }]}
+          >
+            <Input.Password data-testid="password-input-test" />
           </Form.Item>
-          <Button type="primary" htmlType="submit" className="w-full" loading={loading}>
+          <Button
+            data-testid="login-button-test"
+            type="primary"
+            htmlType="submit"
+            className="w-full"
+            loading={loading}
+          >
             Login
           </Button>
         </Form>
         <div className="mt-4 text-center">
           <p>Don't have an account?</p>
-          <Button type="link" onClick={() => navigate("/register")}>Register</Button>
+          <Button
+            data-testid="register-button-test"
+            type="link"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </Button>
         </div>
       </Card>
     </div>

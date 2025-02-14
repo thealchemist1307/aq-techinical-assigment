@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -31,13 +30,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # Third-party apps
+    # Third-party apps\
+
+
     "daphne",
     "rest_framework",             # Django REST Framework
     "rest_framework_simplejwt",   # JWT Authentication
     "corsheaders",                # Cross-Origin Resource Sharing
     "channels",                   # WebSockets for real-time communication
-
+        "users",
+    "chatbot",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -45,12 +47,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     
-
+]
 
     # Your apps
-    "users",
-    "chatbot",
-]
+
 ASGI_APPLICATION = "backend.asgi.application"
 CHANNEL_LAYERS = {
     "default": {

@@ -7,7 +7,24 @@ from rest_framework import status
 from .serializers import UserSerializer
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
+from chatbot.models import ChatMessage
 
+class ChatHistoryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        username = request.user.username  # Assuming the user is authenticated and the username matches the one used in the conversation
+        # Retrieve all chat messages where sender matches the user's username
+        messages = ChatMessage.objects.filter(chat_id=username).order_by('timestamp')
+        data = [
+            {
+                "sender": msg.sender,
+                "message": msg.message,
+                "timestamp": msg.timestamp.isoformat()
+            }
+            for msg in messages
+        ]
+        return Response(data)
 # User Registration API
 class RegisterView(APIView):
     permission_classes = [AllowAny]  #Ensure this is set
@@ -33,6 +50,7 @@ class LoginView(APIView):
             return Response({
                 "refreshToken": str(refresh),
                 "accessToken": str(refresh.access_token),
+                "userName":username
             })
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
