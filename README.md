@@ -132,7 +132,7 @@ Special Configurations
 *   **Ant Design & Tailwind CSS:**  
     The frontend uses Ant Design components styled with Tailwind CSS. Some components may require custom wrappers for complete customization.
 *   **Pre-Build Tests:**  
-    All unit tests should pass before creating a new build. You can enforce this via prebuild scripts in your `package.json`.
+    All unit tests should pass before creating a new build. Need to enforce this via prebuild scripts in your `package.json`.
 
 Troubleshooting
 ---------------
